@@ -30,6 +30,7 @@ export type ConvertCurrenciesResponse = APIResponse & {
    */
   date: string;
   historical?: boolean;
+  result: number;
   info: {
     rate: number;
   };

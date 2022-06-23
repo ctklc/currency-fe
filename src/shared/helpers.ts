@@ -1,12 +1,19 @@
-export const readablePrice = (
+export const readablePriceWithSymbol = (
   price: number,
   currency: string,
   locales: string = 'de-DE'
 ) =>
   new Intl.NumberFormat(locales, {
     style: 'currency',
-    maximumSignificantDigits: 2,
+    maximumFractionDigits: 2,
     currency
   }).format(price);
 
-export default { readablePrice };
+export const readablePriceWithoutSymbol = (
+  price: number,
+  currency: string,
+  locales: string = 'de-DE'
+) =>
+  new Intl.NumberFormat(locales, { currency, maximumFractionDigits: 2 }).format(
+    price
+  );
