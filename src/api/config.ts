@@ -1,7 +1,6 @@
 import {
   ConvertCurrenciesQueryParams,
-  HistoricalCurrenciesQueryParams,
-  LatestRatesQueryParams
+  HistoricalCurrenciesQueryParams
 } from './types';
 import { SupportedCurrencies } from '../shared/types';
 
@@ -17,25 +16,25 @@ export const fetchWithAuth = (input: RequestInfo | URL, init?: RequestInit) =>
     })
   });
 
-export const latestRates = ({
-  base = SupportedCurrencies.EUR,
-  symbols = [SupportedCurrencies.CHF, SupportedCurrencies.USD]
-}: LatestRatesQueryParams = {}) =>
-  `${apiURL}/latest?${new URLSearchParams({
-    base,
-    symbols: symbols.join(',')
-  })}`;
+export const defaultBase = SupportedCurrencies.EUR;
+
+export const defaultSymbols = [
+  SupportedCurrencies.CHF,
+  SupportedCurrencies.USD
+];
 
 export const convertCurrencies = (queryParams: ConvertCurrenciesQueryParams) =>
   `${apiURL}/convert?${new URLSearchParams(queryParams)}`;
 
 export const historicalCurrencies = ({
-  base = SupportedCurrencies.EUR,
-  symbols = [SupportedCurrencies.CHF, SupportedCurrencies.USD],
-  ...otherParams
+  base = defaultBase,
+  symbols = defaultSymbols,
+  startDate,
+  endDate
 }: HistoricalCurrenciesQueryParams) =>
   `${apiURL}/timeseries?${new URLSearchParams({
-    ...otherParams,
+    start_date: startDate,
+    end_date: endDate,
     base,
     symbols: symbols.join(',')
   })}`;

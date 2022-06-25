@@ -2,13 +2,11 @@ import {
   ConvertCurrenciesQueryParams,
   ConvertCurrenciesResponse,
   HistoricalCurrenciesQueryParams,
-  HistoricalCurrenciesResponse,
-  LatestRatesResponse
+  HistoricalCurrenciesResponse
 } from './types';
 import {
-  fetchWithAuth,
-  latestRates,
   convertCurrencies,
+  fetchWithAuth,
   historicalCurrencies
 } from './config';
 
@@ -19,9 +17,6 @@ const responseHandler = (response: Response) => {
 
   throw new Error(response.statusText);
 };
-
-export const getLatestRates = (): Promise<LatestRatesResponse> =>
-  fetchWithAuth(latestRates()).then(responseHandler);
 
 export const getConvertCurrencies = (
   queryParams: ConvertCurrenciesQueryParams

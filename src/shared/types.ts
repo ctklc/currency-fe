@@ -4,6 +4,8 @@ export enum SupportedCurrencies {
   USD = 'USD'
 }
 
+export type SupportedCurrencyShorts = keyof typeof SupportedCurrencies;
+
 export type CurrencyInput = {
   currency?: SupportedCurrencies;
   amount: number | '';

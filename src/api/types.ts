@@ -4,14 +4,9 @@ export type APIResponse = {
   success: boolean;
 };
 
-export type LatestRatesQueryParams = {
+export type DefaultQueryParams = {
   base?: SupportedCurrencies;
   symbols?: SupportedCurrencies[];
-};
-
-export type LatestRatesResponse = APIResponse & {
-  base: SupportedCurrencies;
-  rates: Record<SupportedCurrencies, number>;
 };
 
 export type ConvertCurrenciesQueryParams = {
@@ -19,14 +14,14 @@ export type ConvertCurrenciesQueryParams = {
   from: SupportedCurrencies;
   to: SupportedCurrencies;
   /**
-   * YYYY-MM-DD
+   * format YYYY-MM-DD
    */
   date?: string;
 };
 
 export type ConvertCurrenciesResponse = APIResponse & {
   /**
-   * YYYY-MM-DD
+   * format YYYY-MM-DD
    */
   date: string;
   historical?: boolean;
@@ -37,27 +32,26 @@ export type ConvertCurrenciesResponse = APIResponse & {
   query: Pick<ConvertCurrenciesQueryParams, 'from' | 'to'> & { amount: number };
 };
 
-export type HistoricalCurrenciesQueryParams = LatestRatesQueryParams & {
+export type HistoricalCurrenciesQueryParams = DefaultQueryParams & {
   /**
-   * YYYY-MM-DD
+   * format YYYY-MM-DD
    */
   startDate: string;
   /**
-   * YYYY-MM-DD
+   * format YYYY-MM-DD
    */
   endDate: string;
 };
 
 export type HistoricalCurrenciesResponse = APIResponse &
-  LatestRatesQueryParams & {
+  DefaultQueryParams & {
     /**
-     * YYYY-MM-DD
+     * format YYYY-MM-DD
      */
     startDate: string;
     /**
-     * YYYY-MM-DD
+     * format YYYY-MM-DD
      */
     endDate: string;
-    base: SupportedCurrencies;
     rates: Record<string, Record<SupportedCurrencies, number>>;
   };
