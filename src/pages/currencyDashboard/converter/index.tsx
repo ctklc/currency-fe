@@ -12,7 +12,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import TextField from '@mui/material/TextField';
 import { format } from 'date-fns';
-import { ArrowRightAltOutlined } from '@mui/icons-material';
+import ArrowRightAltOutlined from '@mui/icons-material/ArrowRightAltOutlined';
 import { CurrencyInput, SupportedCurrencies } from '../../../shared/types';
 import {
   ConvertCurrenciesQueryParams,
@@ -22,7 +22,7 @@ import { getConvertCurrencies } from '../../../api';
 import { readablePriceWithoutSymbol } from '../../../shared/helpers';
 import { defaultBase, defaultSymbols } from '../../../api/config';
 
-type ConverterProps = {
+export type ConverterProps = {
   supportedCurrencies: Array<keyof typeof SupportedCurrencies>;
 };
 
@@ -79,7 +79,16 @@ export default function Converter({ supportedCurrencies }: ConverterProps) {
           label="Historical Rates"
           value={date}
           onChange={(newValue) => setDate(newValue)}
-          renderInput={(params) => <TextField {...params} size="small" />}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              size="small"
+              inputProps={{
+                ...params.inputProps,
+                'data-testid': 'ConverterDateInput'
+              }}
+            />
+          )}
           disabled={isLoading}
         />
       </LocalizationProvider>
@@ -92,6 +101,7 @@ export default function Converter({ supportedCurrencies }: ConverterProps) {
           size="small"
           sx={{ fontSize: 14, width: 75, height: 35 }}
           disabled={isLoading}
+          data-testid="FromCurrencySelect"
         >
           {supportedCurrencies.map((key) => (
             <MenuItem key={key} value={key}>
@@ -103,7 +113,10 @@ export default function Converter({ supportedCurrencies }: ConverterProps) {
           disabled={isLoading}
           sx={{ ml: 1, flex: 1 }}
           placeholder="Amount"
-          inputProps={{ 'aria-label': 'Amount' }}
+          inputProps={{
+            'aria-label': 'Amount',
+            'data-testid': 'FromCurrencyInput'
+          }}
           value={fromCurrency.amount}
           onChange={handleFromCurrencyChange('amount')}
         />
@@ -118,6 +131,7 @@ export default function Converter({ supportedCurrencies }: ConverterProps) {
           size="small"
           sx={{ fontSize: 14, width: 75, height: 35 }}
           disabled={isLoading}
+          data-testid="TargetCurrencySelect"
         >
           {supportedCurrencies.map((key) => (
             <MenuItem key={key} value={key}>
@@ -128,12 +142,11 @@ export default function Converter({ supportedCurrencies }: ConverterProps) {
         <InputBase
           sx={{ ml: 1, flex: 1 }}
           placeholder="Amount"
-          inputProps={{ 'aria-label': 'Amount' }}
-          value={
-            data?.result
-              ? readablePriceWithoutSymbol(data.result, targetCurrency)
-              : ''
-          }
+          inputProps={{
+            'aria-label': 'Amount',
+            'data-testid': 'TargetCurrencyInput'
+          }}
+          value={data?.result ? readablePriceWithoutSymbol(data.result) : ''}
           disabled
         />
       </Paper>
@@ -141,6 +154,7 @@ export default function Converter({ supportedCurrencies }: ConverterProps) {
         loading={isLoading}
         startIcon={<RefreshOutlined />}
         onClick={handleConversion}
+        data-testid="ConvertButton"
       >
         Convert
       </LoadingButton>

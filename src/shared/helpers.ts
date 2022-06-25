@@ -2,12 +2,8 @@ import { format, isValid } from 'date-fns';
 
 export const readablePriceWithoutSymbol = (
   price: number,
-  currency: string,
   locales: string = 'de-DE'
-) =>
-  new Intl.NumberFormat(locales, { currency, maximumFractionDigits: 2 }).format(
-    price
-  );
+) => new Intl.NumberFormat(locales, { maximumFractionDigits: 2 }).format(price);
 
 export const formatDate = (date?: Date | null) =>
   date && isValid(date) ? format(date, 'yyyy-MM-dd') : undefined;

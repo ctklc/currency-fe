@@ -3,6 +3,7 @@ import {
   Legend,
   Line,
   LineChart,
+  ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis
@@ -42,31 +43,23 @@ function RatesChart({ data }: RatesChartProps) {
   );
 
   return data ? (
-    <LineChart
-      width={1000}
-      height={500}
-      data={generateChartData()}
-      margin={{
-        top: 5,
-        right: 20,
-        left: 10,
-        bottom: 5
-      }}
-    >
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-      <Legend />
-      {requestedCurrencies(data.rates).map((curr) => (
-        <Line
-          key={curr}
-          type="monotone"
-          dataKey={curr}
-          stroke={randomHexColor()}
-        />
-      ))}
-    </LineChart>
+    <ResponsiveContainer width="100%" height="100%" aspect={2}>
+      <LineChart data={generateChartData()}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        {requestedCurrencies(data.rates).map((curr) => (
+          <Line
+            key={curr}
+            type="monotone"
+            dataKey={curr}
+            stroke={randomHexColor()}
+          />
+        ))}
+      </LineChart>
+    </ResponsiveContainer>
   ) : null;
 }
 
